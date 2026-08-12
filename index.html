@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#171B44">
+<title>An Enchanting Evening® — Time for Two®</title>
+<style>
+:root{
+  --navy-900:#12163A;
+  --navy-800:#171B44;
+  --navy-700:#1E2359;
+  --navy-600:#262C68;
+  --navy-500:#2F3679;
+  --coral:#E8836B;
+  --coral-dim:#C96B55;
+  --pink:#EE5F86;
+  --ink:#EAE7F2;
+  --ink-dim:#A9A6C4;
+  --ink-faint:#6F6D93;
+  --playful-a:#4C6FC6; --playful-b:#3A55A8;
+  --mid-a:#F0956B;     --mid-b:#EA7551;
+  --intimate-a:#EE5F86;--intimate-b:#D8447A;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{
+  background:var(--navy-800);
+  color:var(--ink);
+  font:400 16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior:none;
+}
+#app{
+  position:relative;height:100%;width:100%;
+  max-width:460px;margin:0 auto;
+  background:var(--navy-700);
+  overflow:hidden;
+  box-shadow:0 0 80px rgba(0,0,0,.55);
+}
+@media(min-width:520px){
+  body{background:var(--navy-900);display:flex;align-items:center;justify-content:center;padding:24px}
+  #app{height:min(880px,100%);border-radius:26px}
+}
+.screen{
+  position:absolute;inset:0;display:none;flex-direction:column;
+  padding:34px 26px calc(26px + env(safe-area-inset-bottom));
+  opacity:0;transition:opacity .5s ease;
+}
+.screen.on{display:flex;opacity:1}
+.grow{flex:1}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+
+/* ---------- type ---------- */
+.script{
+  font-family:"Snell Roundhand","Brush Script MT","Segoe Script","Apple Chancery",cursive;
+  font-size:40px;line-height:1.05;font-weight:600;letter-spacing:.5px;
+}
+.script .two{color:var(--pink)}
+.reg{font-size:.45em;vertical-align:super;letter-spacing:0}
+.tagline{font-size:11px;letter-spacing:3.4px;color:var(--ink-dim);margin-top:8px}
+h1.aee{
+  font-size:30px;font-weight:300;line-height:1.18;letter-spacing:.4px;
+  color:var(--coral);margin:0;
+}
+h2{font-size:22px;font-weight:400;margin:0 0 14px}
+h2 b{font-weight:700}
+p{margin:0 0 14px;color:var(--ink)}
+.dim{color:var(--ink-dim)}
+.faint{color:var(--ink-faint);font-size:13px}
+.lbl{font-size:12px;letter-spacing:2.2px;color:var(--ink-dim);text-transform:uppercase}
+
+/* ---------- controls ---------- */
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.btn{
+  display:block;width:100%;padding:16px;border-radius:30px;
+  background:var(--coral);color:#2A1710;font-weight:600;font-size:17px;
+  transition:transform .12s ease,filter .2s ease;
+}
+.btn:active{transform:scale(.975)}
+.btn.ghost{background:none;border:1px solid rgba(234,231,242,.35);color:var(--ink);font-weight:400}
+.btn[disabled]{opacity:.35;pointer-events:none}
+.arrow{
+  width:54px;height:54px;border-radius:50%;background:var(--coral);color:#2A1710;
+  display:grid;place-items:center;font-size:22px;margin:0 auto;
+}
+.link{color:var(--ink-faint);font-size:13px;text-decoration:underline;text-underline-offset:3px}
+input[type=text]{
+  width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(234,231,242,.18);
+  background:rgba(255,255,255,.05);color:var(--ink);font:inherit;outline:none;
+}
+input[type=text]:focus{border-color:var(--coral)}
+input::placeholder{color:var(--ink-faint)}
+
+/* ---------- splash ---------- */
+#s-splash{background:radial-gradient(120% 70% at 50% 78%,#2B2F6B 0%,var(--navy-700) 42%,var(--navy-900) 100%);justify-content:center;align-items:center;text-align:center;cursor:pointer}
+.candle{position:relative;width:120px;height:170px;margin-top:26px}
+.flame{
+  position:absolute;left:50%;bottom:64px;transform:translateX(-50%);
+  width:26px;height:62px;border-radius:50% 50% 46% 46%/62% 62% 38% 38%;
+  background:linear-gradient(to top,#FFD98A 0%,#FFB44D 38%,#FF8A3C 70%,#FFE9B0 100%);
+  box-shadow:0 0 34px 12px rgba(255,150,60,.34),0 0 90px 34px rgba(255,140,50,.16);
+  animation:flick 2.6s ease-in-out infinite;transform-origin:50% 100%;
+}
+@keyframes flick{0%,100%{transform:translateX(-50%) scaleY(1) rotate(0)}30%{transform:translateX(-50%) scaleY(1.07) rotate(-1.6deg)}62%{transform:translateX(-50%) scaleY(.95) rotate(1.4deg)}}
+.wax{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:86px;height:66px;border-radius:10px 10px 8px 8px;background:linear-gradient(to bottom,#6A5A52,#3D3340);box-shadow:inset 0 8px 16px rgba(255,190,120,.22)}
+.wick{position:absolute;left:50%;bottom:60px;transform:translateX(-50%);width:2px;height:12px;background:#2A2230}
+
+/* ---------- portal ---------- */
+.tile{
+  border-radius:16px;padding:16px;min-height:132px;display:flex;flex-direction:column;
+  justify-content:flex-end;position:relative;overflow:hidden;
+}
+.tile.aee{background:linear-gradient(160deg,#3A3F86,#232764);border:1px solid rgba(232,131,107,.3)}
+.tile.tkyb{background:linear-gradient(160deg,#C9DDEE,#9FC4E2);color:#1B2140}
+.tile.soon{background:rgba(255,255,255,.045);color:var(--ink-faint);align-items:center;justify-content:center;font-size:13px;text-align:center}
+.tile-name{font-size:17px;font-weight:500;line-height:1.2}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 22px}
+.mini-candle{position:absolute;right:14px;top:16px;width:16px;height:34px;border-radius:4px;background:linear-gradient(to bottom,#7A6A60,#3D3340)}
+.mini-flame{position:absolute;right:19px;top:4px;width:8px;height:18px;border-radius:50% 50% 45% 45%/60% 60% 40% 40%;background:linear-gradient(to top,#FFC46A,#FFE9B0);box-shadow:0 0 14px 5px rgba(255,150,60,.4);animation:flick 2.6s ease-in-out infinite}
+
+/* ---------- card sheet ---------- */
+.sheet{
+  background:linear-gradient(150deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:24px 22px;
+}
+.dots{display:flex;gap:7px;justify-content:center;margin-top:16px}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(234,231,242,.24)}
+.dot.on{background:var(--coral)}
+
+/* ---------- avatars ---------- */
+.av{
+  width:52px;height:52px;border-radius:50%;display:grid;place-items:center;
+  font-size:19px;font-weight:600;color:#15183A;flex:none;
+  border:2px solid rgba(255,255,255,.5);
+}
+.av.p0{background:linear-gradient(150deg,#F0A88C,var(--coral))}
+.av.p1{background:linear-gradient(150deg,#9FC4E2,#6E8FD6)}
+.av.sm{width:30px;height:30px;font-size:12px;border-width:1.5px}
+.who{display:flex;align-items:center;gap:12px;justify-content:center}
+
+/* ---------- game ---------- */
+#s-game{padding:0}
+.gwrap{position:absolute;inset:0;display:flex}
+.gmain{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 22px;text-align:center}
+.track{
+  width:46px;flex:none;position:relative;display:flex;flex-direction:column;
+  border-left:1px solid rgba(255,255,255,.07);
+}
+.cellx{flex:1;position:relative;display:grid;place-items:center}
+.cellx .rest{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.55);box-shadow:0 0 8px rgba(255,255,255,.5)}
+.cap{font-size:8px;letter-spacing:1.4px;text-align:center;padding:5px 0;font-weight:700;color:rgba(255,255,255,.9)}
+.tok{
+  position:absolute;right:calc(100% + 7px);width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;font-size:11px;font-weight:700;color:#15183A;
+  border:2px solid rgba(255,255,255,.75);transition:bottom .5s cubic-bezier(.4,1.3,.5,1);
+  box-shadow:0 3px 10px rgba(0,0,0,.4);
+}
+.die{
+  width:96px;height:96px;border-radius:20px;background:linear-gradient(150deg,#FFFFFF,#D8D8E4);
+  display:grid;place-items:center;margin:0 auto 22px;box-shadow:0 12px 30px rgba(0,0,0,.42);
+  transition:transform .5s ease;
+}
+.die.roll{animation:tumble .55s ease}
+@keyframes tumble{0%{transform:rotate(0) scale(1)}30%{transform:rotate(170deg) scale(1.12)}70%{transform:rotate(310deg) scale(.94)}100%{transform:rotate(360deg) scale(1)}}
+.pips{display:grid;gap:14px}
+.pip{width:15px;height:15px;border-radius:50%;background:#2A2E5E}
+
+/* ---------- play card ---------- */
+#s-card{padding:0;background:var(--navy-800)}
+.pcard{
+  position:absolute;inset:14px;border-radius:24px;padding:30px 26px;
+  display:flex;flex-direction:column;
+  box-shadow:0 18px 46px rgba(0,0,0,.45);
+  animation:rise .45s cubic-bezier(.2,.9,.3,1);
+}
+@keyframes rise{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
+.pcard.playful{background:linear-gradient(160deg,var(--playful-a),var(--playful-b))}
+.pcard.mid{background:linear-gradient(160deg,var(--mid-a),var(--mid-b))}
+.pcard.intimate{background:linear-gradient(160deg,var(--intimate-a),var(--intimate-b))}
+.pcard.rest{background:linear-gradient(160deg,#3B4180,#282D66)}
+.ptype{font-size:11px;letter-spacing:2.6px;text-transform:uppercase;color:rgba(255,255,255,.72)}
+.ptext{
+  flex:1;display:flex;align-items:center;
+  font-size:clamp(20px,5.4vw,26px);line-height:1.42;font-weight:400;color:#FFF7F2;
+}
+.pfoot{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.pdone{padding:13px 30px;border-radius:26px;background:rgba(255,255,255,.94);color:#20244F;font-weight:600}
+.ppass{color:rgba(255,255,255,.62);font-size:13px;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- misc ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.wishbox{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px}
+.masked{filter:blur(6px);opacity:.55;user-select:none}
+.hr{height:1px;background:rgba(255,255,255,.1);margin:18px 0}
+.pill{display:inline-block;padding:5px 12px;border-radius:20px;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;background:rgba(255,255,255,.09);color:var(--ink-dim)}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- 1 SPLASH -->
+<div class="screen center on" id="s-splash" onclick="go('portal')">
+  <div class="candle"><div class="flame"></div><div class="wick"></div><div class="wax"></div></div>
+  <div class="script" style="margin-top:34px">Time for <span class="two">Two</span><span class="reg">®</span></div>
+  <div class="tagline">TALK. TOUCH. CONNECT.</div>
+  <p class="faint" style="margin-top:40px">Please tap the screen to continue</p>
+  <p class="faint" style="opacity:.6">© Time for Two, Inc. 1990 to 2026</p>
+</div>
+
+<!-- 2 PORTAL -->
+<div class="screen" id="s-portal">
+  <div style="text-align:center">
+    <div class="script" style="font-size:32px">Time for <span class="two">Two</span><span class="reg">®</span></div>
+    <div class="tagline">TALK. TOUCH. CONNECT.</div>
+  </div>
+  <div style="margin-top:34px" class="grow">
+    <div class="lbl">Dating &amp; Conversation Games</div>
+    <div class="grid">
+      <div class="tile tkyb"><div class="tile-name">To Know<br>You…<i>Better</i>®</div></div>
+      <div class="tile soon">More games<br>coming soon</div>
+    </div>
+    <div class="lbl">Romance &amp; Intimacy Games</div>
+    <div class="grid">
+      <div class="tile aee" onclick="go('intro')">
+        <div class="mini-candle"></div><div class="mini-flame"></div>
+        <div class="tile-name" style="color:var(--coral)">An Enchanting<br>Evening®</div>
+      </div>
+      <div class="tile soon">More games<br>coming soon</div>
+    </div>
+  </div>
+  <p class="faint" style="text-align:center">Prototype · v0.1</p>
+</div>
+
+<!-- 3 INTRO -->
+<div class="screen" id="s-intro">
+  <div class="topbar"><button class="link" onclick="go('portal')">✕ Close</button><span class="pill">Romance &amp; Intimacy</span></div>
+  <h1 class="aee">An Enchanting<br>Evening<span style="font-size:.55em;vertical-align:super">®</span></h1>
+  <p style="margin-top:12px;font-size:17px">A game of Love, Laughter &amp; Romance</p>
+  <div class="hr"></div>
+  <p class="dim">An Enchanting Evening is a playfully intimate game for any couple, any age. Enjoy the game, and each other, at any level of intimacy that's comfortable and fun for both of you.</p>
+  <div class="grow"></div>
+  <button class="btn" onclick="go('dir')">Start the Demo</button>
+  <p class="faint" style="text-align:center;margin-top:14px">No purchase or charges in this prototype.</p>
+</div>
+
+<!-- 4 DIRECTIONS -->
+<div class="screen" id="s-dir">
+  <div class="sheet grow" style="display:flex;flex-direction:column">
+    <div id="dirbody" class="grow" style="overflow:auto"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px">
+      <button class="link" onclick="go('names')">Skip</button>
+      <div class="dots" id="dirdots"></div>
+      <button class="arrow" style="width:44px;height:44px;font-size:18px" onclick="dirNext()">→</button>
+    </div>
+  </div>
+</div>
+
+<!-- 5 NAMES -->
+<div class="screen" id="s-names">
+  <h2>Who's playing tonight?</h2>
+  <p class="dim">Just first names.</p>
+  <div style="margin-top:20px"><input type="text" id="n0" placeholder="First player" maxlength="14" oninput="chkNames()"></div>
+  <div style="margin-top:12px"><input type="text" id="n1" placeholder="Second player" maxlength="14" oninput="chkNames()"></div>
+  <div class="grow"></div>
+  <button class="btn" id="nbtn" disabled onclick="startWishes()">Continue</button>
+</div>
+
+<!-- 6 WISH -->
+<div class="screen" id="s-wish">
+  <div class="pill" id="wscreen">Private</div>
+  <div style="text-align:center;margin-top:26px">
+    <div class="av p0" id="wav" style="margin:0 auto">?</div>
+  </div>
+  <h2 style="text-align:center;margin-top:18px" id="wtitle"></h2>
+  <p class="dim" style="text-align:center;font-size:14px">Something that can come true tonight. Keep it secret until the end.</p>
+  <div class="wishbox" style="margin-top:18px">
+    <div class="lbl" style="margin-bottom:8px">I wish…</div>
+    <input type="text" id="wtext" placeholder="Type your wish" maxlength="120" oninput="chkWish()">
+  </div>
+  <div class="grow"></div>
+  <p class="faint" style="text-align:center" id="whand"></p>
+  <button class="btn" id="wbtn" disabled onclick="saveWish()">Done — hide my wish</button>
+</div>
+
+<!-- 7 READY -->
+<div class="screen" id="s-ready">
+  <div class="grow center">
+    <h1 class="aee" style="font-size:26px">An Enchanting<br>Evening<span style="font-size:.55em;vertical-align:super">®</span></h1>
+    <h2 style="margin-top:28px">You're all set up!</h2>
+    <p class="dim">Have fun, you two.</p>
+    <div class="who" style="margin-top:26px">
+      <div style="text-align:center"><div class="av p0" id="rav0"></div><div class="faint" id="rn0" style="margin-top:6px"></div></div>
+      <div style="font-size:22px;color:var(--ink-faint)">&amp;</div>
+      <div style="text-align:center"><div class="av p1" id="rav1"></div><div class="faint" id="rn1" style="margin-top:6px"></div></div>
+    </div>
+    <p class="faint" style="margin-top:34px;max-width:280px">Set the room first — low light, something to eat and drink, and your phone on Do Not Disturb.</p>
+  </div>
+  <button class="btn" onclick="beginGame()">Start</button>
+</div>
+
+<!-- 8 GAME -->
+<div class="screen" id="s-game">
+  <div class="gwrap">
+    <div class="gmain">
+      <h1 class="aee" style="font-size:21px;opacity:.75">An Enchanting Evening<span style="font-size:.55em;vertical-align:super">®</span></h1>
+      <div class="grow" style="display:flex;flex-direction:column;justify-content:center">
+        <div class="die" id="die" onclick="roll()"><div class="pips" id="pips"></div></div>
+        <h2 id="turnline" style="margin:0"></h2>
+        <p class="faint" id="turnhint" style="margin-top:6px">tap the die to roll</p>
+      </div>
+      <div class="who" style="gap:18px;margin-bottom:6px">
+        <div style="text-align:center"><div class="av p0 sm" id="gav0"></div></div>
+        <div style="text-align:center"><div class="av p1 sm" id="gav1"></div></div>
+      </div>
+    </div>
+    <div class="track" id="track"></div>
+  </div>
+</div>
+
+<!-- 9 PLAY CARD -->
+<div class="screen" id="s-card">
+  <div class="pcard" id="pcard">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span class="ptype" id="ptype"></span>
+      <span class="ptype" id="pwho"></span>
+    </div>
+    <div class="ptext" id="ptext"></div>
+    <div class="pfoot">
+      <button class="ppass" id="ppass" onclick="passCard()">Pass this one</button>
+      <button class="pdone" onclick="doneCard()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- 10 WIN -->
+<div class="screen" id="s-win">
+  <div class="grow center">
+    <div class="candle" style="transform:scale(.8)"><div class="flame"></div><div class="wick"></div><div class="wax"></div></div>
+    <h2 style="margin-top:26px" id="winline"></h2>
+    <p class="dim" id="winsub" style="max-width:300px"></p>
+    <div class="wishbox" style="margin-top:22px;width:100%">
+      <div class="lbl" style="margin-bottom:8px" id="wishowner"></div>
+      <p id="wishtext" style="margin:0;font-size:18px;line-height:1.45"></p>
+    </div>
+    <p class="faint" style="margin-top:20px;max-width:300px" id="winfoot"></p>
+  </div>
+  <button class="btn ghost" onclick="location.reload()">Play again</button>
+</div>
+
+</div>
+<script>
+/* ============================================================
+   AN ENCHANTING EVENING — prototype v0.1
+   Single device. State is in memory only.
+   Structured so a second device can be added later: all mutable
+   state lives in GAME, and every transition goes through go()/render().
+   ============================================================ */
+
+const CARDS = {
+  playful: [
+    {t:'talk', x:'First impressions often last. If you saw your partner at a party, what might first attract you?'},
+    {t:'touch',x:'Something simple and wonderful… hug your partner.'},
+    {t:'talk', x:'It might be pizza on a rainy night or a romantic sunset on a beach — describe a “magic” moment that you’ve shared with your partner.'},
+    {t:'touch',x:'Think of your partner as a magic lamp… gently rub their neck and shoulders.'},
+    {t:'talk', x:'Sometimes friends, sometimes lovers — in what way is your partner supportive of you?'},
+    {t:'touch',x:'Gently kiss your partner’s eyes… remembering that’s how they see you.'},
+    {t:'talk', x:'You’ve won an all-expenses-paid trip for two. Where would you like to vacation with your partner?'},
+    {t:'touch',x:'Pretending your fingers are your lips… “kiss” your partner on the mouth.'}
+  ],
+  mid: [
+    {t:'talk', x:'You’re spending this evening together because there’s mutual attraction… what two things do you believe your partner finds attractive about you?'},
+    {t:'touch',x:'Each one of us is unique… tenderly touch something that your partner has only one of.'},
+    {t:'talk', x:'The future includes hopes and dreams… what three things do you hope your partner will experience this year?'},
+    {t:'touch',x:'Romeo and Juliet, Antony and Cleopatra — famous “twosomes”… gently caress something your partner has a pair of.'},
+    {t:'talk', x:'If your partner’s soul were to be “x-rayed,” what wonderful things would show up?'},
+    {t:'touch',x:'If you enjoy surprises, kiss your partner where they don’t expect it.'},
+    {t:'talk', x:'H.G. Wells’ “Time Machine” is in your driveway. Where in history would you like to rendezvous with your partner?'},
+    {t:'touch',x:'Using the tip of a finger and your most flowery style, trace your name somewhere on your partner’s body.'}
+  ],
+  intimate: [
+    {t:'talk', x:'Your favorite musicians are standing behind a screen in your bedroom… what music will you ask them to play?'},
+    {t:'touch',x:'A toast! Dab whatever you’re drinking somewhere on your body and ask your partner to savor it.'},
+    {t:'talk', x:'You’re looking forward to a romantic weekend away. What two articles of clothing do you hope your partner will bring?'},
+    {t:'touch',x:'Time to turn on the electricity… touch your partner where you think their switch is.'},
+    {t:'talk', x:'You’re planning a sensual evening with your partner. How would you create a romantic atmosphere?'},
+    /* CARD 22 — flagged by T4T for replacement; left in place for now. */
+    {t:'touch',x:'Ask your partner to fill in the blanks, then follow their instructions: Please ______ my ______ with your ______.'},
+    {t:'talk', x:'The painters have finished your bedroom, but the walls are still wet. Where else in your home would you like to make love?'},
+    {t:'touch',x:'The “How Much Feeling Can You Put Into A Kiss” contest has just begun. You are a contestant. Give your partner the winning kiss.'}
+  ]
+};
+
+const RESTS = [
+  'A moment to breathe. Refill the glasses, enjoy something to eat, and simply be together.',
+  'Pause here. Turn the music up a little. There’s nothing to do but enjoy each other.',
+  'Rest. Let the candle burn down a bit, and take your time coming back.'
+];
+
+/* Board: 18 positions + FINISH at 19.
+   Three zones of six; one rest space inside each zone. */
+const BOARD = [];
+for(let i=1;i<=18;i++){
+  const zone = i<=6 ? 'playful' : i<=12 ? 'mid' : 'intimate';
+  BOARD.push({i, zone, rest:(i===3||i===9||i===15)});
+}
+const FINISH = 19;
+
+const GAME = {
+  names:['',''], wishes:['',''], pos:[0,0], turn:0,
+  decks:{}, wishIdx:0, pending:null, log:[]
+};
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const initial = n => (n.trim()[0]||'?').toUpperCase();
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+let current = 's-splash';
+function go(name){
+  const next = 's-'+name;
+  const cur = $(current);
+  cur.classList.remove('on');
+  $(next).classList.add('on');
+  current = next;
+}
+
+/* ---------- directions ---------- */
+const DIR = [
+ `<h2>How to <b>Play</b></h2>
+  <p><b>Preparation</b></p>
+  <p class="dim">Before you play, you'll want to create the “just-right” ambiance — a private time and place to play.</p>
+  <p class="dim">You may want to include soft lighting, such as candlelight, romantic music, and some of your favorite things to eat and drink close at hand.</p>
+  <p class="dim">You two create the environment, and An Enchanting Evening® provides the romantic experience.</p>
+  <p><b>Secret Wishes</b></p>
+  <p class="dim">First, each player enters a “Secret wish” to be fulfilled by the “losing” player. The wish should be one that can be completed the same evening the game is played.</p>`,
+ `<p class="dim">The winner's wish is revealed at the end of the game.</p>
+  <p><b>Cards</b></p>
+  <p class="dim">You'll progress through a series of cards that get even more “interesting” as you go. Some suggest romantic things to do and some ask romantic questions.</p>
+  <p><b>To Begin</b></p>
+  <p class="dim">Tap the die to roll. The die has only ones and twos — this is a slow walk, not a race.</p>
+  <p class="dim">Along the way you'll land on a few resting places. Use them: refill a glass, enjoy the food, or just relax.</p>`,
+ `<p class="dim">The first player rolls the die and moves the number of spaces indicated.</p>
+  <p class="dim">The player reads the card aloud and responds. Taking turns, each player progresses up the board until one of you reaches “finish”.</p>
+  <p><b>How to win</b></p>
+  <p class="dim">The game is won by the player to reach “finish” first — that person wins their Secret Wish, and their partner makes it come true.</p>`
+];
+let dirI = 0;
+function renderDir(){
+  $('dirbody').innerHTML = DIR[dirI];
+  $('dirdots').innerHTML = DIR.map((_,i)=>`<span class="dot ${i===dirI?'on':''}"></span>`).join('');
+}
+function dirNext(){
+  if(dirI < DIR.length-1){ dirI++; renderDir(); }
+  else go('names');
+}
+
+/* ---------- names ---------- */
+function chkNames(){
+  $('nbtn').disabled = !($('n0').value.trim() && $('n1').value.trim());
+}
+
+/* ---------- wishes ---------- */
+function startWishes(){
+  GAME.names = [$('n0').value.trim(), $('n1').value.trim()];
+  GAME.wishIdx = 0;
+  showWish();
+  go('wish');
+}
+function showWish(){
+  const i = GAME.wishIdx, me = GAME.names[i], you = GAME.names[1-i];
+  $('wscreen').textContent = me + '’s screen — private';
+  $('wav').className = 'av p'+i;
+  $('wav').textContent = initial(me);
+  $('wtitle').innerHTML = `<b>${me}</b>, what do you wish for?`;
+  $('whand').textContent = i===0
+    ? 'When you’re done, hand the device to ' + you + ' — no peeking.'
+    : 'When you’re done, you’re both ready.';
+  $('wtext').value = '';
+  $('wbtn').disabled = true;
+  setTimeout(()=>$('wtext').focus(), 260);
+}
+function chkWish(){ $('wbtn').disabled = !$('wtext').value.trim(); }
+function saveWish(){
+  GAME.wishes[GAME.wishIdx] = $('wtext').value.trim();
+  if(GAME.wishIdx === 0){ GAME.wishIdx = 1; showWish(); }
+  else {
+    $('rav0').textContent = initial(GAME.names[0]);
+    $('rav1').textContent = initial(GAME.names[1]);
+    $('rn0').textContent = GAME.names[0];
+    $('rn1').textContent = GAME.names[1];
+    go('ready');
+  }
+}
+
+/* ---------- board ---------- */
+function trackColor(i){
+  const p = (i-1)/(FINISH-1);
+  const stops = [[0,[74,111,198]],[.28,[124,178,214]],[.5,[232,212,139]],[.72,[240,150,104]],[.88,[238,95,134]],[1,[203,49,110]]];
+  let a = stops[0], b = stops[stops.length-1];
+  for(let k=0;k<stops.length-1;k++){ if(p>=stops[k][0] && p<=stops[k+1][0]){ a=stops[k]; b=stops[k+1]; break; } }
+  const t = (p-a[0])/((b[0]-a[0])||1);
+  const c = a[1].map((v,k)=>Math.round(v+(b[1][k]-v)*t));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+function buildTrack(){
+  const t = $('track');
+  let h = `<div class="cap" style="background:${trackColor(FINISH)}">FINISH</div>`;
+  for(let i=18;i>=1;i--){
+    const sp = BOARD[i-1];
+    h += `<div class="cellx" style="background:${trackColor(i)}">${sp.rest?'<span class="rest"></span>':''}</div>`;
+  }
+  h += `<div class="cap" style="background:${trackColor(1)}">START</div>`;
+  h += `<div class="tok p0" id="tok0"></div><div class="tok p1" id="tok1"></div>`;
+  t.innerHTML = h;
+  $('tok0').className='tok'; $('tok0').style.background='linear-gradient(150deg,#F0A88C,#E8836B)';
+  $('tok1').className='tok'; $('tok1').style.background='linear-gradient(150deg,#9FC4E2,#6E8FD6)';
+  $('tok0').textContent = initial(GAME.names[0]);
+  $('tok1').textContent = initial(GAME.names[1]);
+  placeTokens();
+}
+function placeTokens(){
+  const t = $('track'), H = t.clientHeight, capH = 22;
+  const lane = (H - capH*2) / 18;
+  [0,1].forEach(p=>{
+    const pos = Math.min(GAME.pos[p], FINISH);
+    const bottom = pos===0 ? 4 : capH + lane*(pos-0.5) - 14;
+    const el = $('tok'+p);
+    el.style.bottom = bottom + 'px';
+    el.style.right = 'calc(100% + ' + (p===0 ? 4 : 36) + 'px)';
+  });
+}
+
+/* ---------- game loop ---------- */
+function beginGame(){
+  GAME.decks = {
+    playful: shuffle([...CARDS.playful]),
+    mid: shuffle([...CARDS.mid]),
+    intimate: shuffle([...CARDS.intimate])
+  };
+  GAME.pos=[0,0]; GAME.turn=0;
+  $('gav0').textContent = initial(GAME.names[0]);
+  $('gav1').textContent = initial(GAME.names[1]);
+  go('game');
+  setTimeout(()=>{ buildTrack(); renderTurn(); }, 60);
+}
+function renderTurn(){
+  const me = GAME.names[GAME.turn];
+  $('turnline').innerHTML = `<b>${me}</b>, your turn`;
+  $('turnhint').textContent = 'tap the die to roll';
+  $('gav0').style.opacity = GAME.turn===0 ? 1 : .3;
+  $('gav1').style.opacity = GAME.turn===1 ? 1 : .3;
+  drawPips(1, true);
+}
+function drawPips(n, blank){
+  $('pips').innerHTML = blank ? '<div class="pip" style="opacity:.18"></div>'
+    : Array.from({length:n},()=>'<div class="pip"></div>').join('');
+  $('pips').style.gridTemplateColumns = '1fr';
+}
+let rolling = false;
+function roll(){
+  if(rolling) return;
+  rolling = true;
+  const n = Math.random() < .5 ? 1 : 2;   // hard-copy die: ones and twos only
+  $('die').classList.add('roll');
+  $('turnhint').textContent = '';
+  setTimeout(()=>{
+    drawPips(n);
+    $('die').classList.remove('roll');
+    $('turnline').innerHTML = `<b>${GAME.names[GAME.turn]}</b> moves ${n===1?'one space':'two spaces'}`;
+  }, 520);
+  setTimeout(()=>{
+    GAME.pos[GAME.turn] = Math.min(GAME.pos[GAME.turn] + n, FINISH);
+    placeTokens();
+  }, 900);
+  setTimeout(()=>{
+    rolling = false;
+    if(GAME.pos[GAME.turn] >= FINISH) return win();
+    landOn(GAME.pos[GAME.turn]);
+  }, 1550);
+}
+function landOn(pos){
+  const sp = BOARD[pos-1];
+  const who = GAME.names[GAME.turn];
+  if(sp.rest){
+    GAME.pending = {rest:true};
+    $('pcard').className = 'pcard rest';
+    $('ptype').textContent = 'A resting place';
+    $('pwho').textContent = '';
+    $('ptext').textContent = RESTS[Math.floor(Math.random()*RESTS.length)];
+    $('ppass').style.display = 'none';
+  } else {
+    const deck = GAME.decks[sp.zone];
+    if(!deck.length) GAME.decks[sp.zone] = shuffle([...CARDS[sp.zone]]);
+    const card = GAME.decks[sp.zone].shift();
+    GAME.pending = {card, zone:sp.zone, pos};
+    $('pcard').className = 'pcard ' + sp.zone;
+    $('ptype').textContent = card.t === 'talk' ? 'Tell me more' : 'Is it getting warm in here?';
+    $('pwho').textContent = who;
+    $('ptext').textContent = card.x;
+    $('ppass').style.display = '';
+  }
+  go('card');
+}
+function doneCard(){ finishCard('done'); }
+function passCard(){ finishCard('passed'); }
+function finishCard(how){
+  if(GAME.pending && GAME.pending.card){
+    GAME.log.push({pos:GAME.pending.pos, zone:GAME.pending.zone, type:GAME.pending.card.t, result:how});
+  }
+  GAME.pending = null;
+  GAME.turn = 1 - GAME.turn;
+  go('game');
+  setTimeout(renderTurn, 60);
+}
+function win(){
+  const w = GAME.turn, l = 1 - w;
+  $('winline').innerHTML = `<b>${GAME.names[w]}</b> reached finish!`;
+  $('winsub').textContent = 'And here is the wish that comes true tonight.';
+  $('wishowner').textContent = GAME.names[w] + '’s wish';
+  $('wishtext').textContent = GAME.wishes[w] || '—';
+  $('winfoot').textContent = GAME.names[l] + ', it’s yours to make come true.';
+  go('win');
+}
+
+/* ---------- init ---------- */
+renderDir();
+window.addEventListener('resize', ()=>{ if(current==='s-game') placeTokens(); });
+</script>
+</body>
+</html>
