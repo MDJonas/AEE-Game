@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1A1842">
+<title>AEE Tester Evaluation</title>
+<style>
+:root{
+  --deep:#131132; --navy:#1A1842; --panel:#231F63;
+  --coral:#E8845F; --aee-bright:#F85596; --gold:#F0B24A;
+  --ink:#F7EFE9; --ink-dim:#C3BEDA; --ink-faint:#B9B5DE;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--navy);color:var(--ink);
+  font:400 17px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+@media(min-width:560px){body{background:var(--deep)}}
+.wrap{max-width:520px;margin:0 auto;padding:28px 18px calc(40px + env(safe-area-inset-bottom));background:var(--navy);min-height:100vh}
+@media(min-width:560px){.wrap{border-radius:26px;margin:24px auto;min-height:0;box-shadow:0 0 80px rgba(0,0,0,.55);padding:36px 30px 44px}}
+h1{font-size:30px;font-weight:300;line-height:1.16;color:var(--aee-bright);margin:0}
+h1 sup{font-size:.5em}
+.sub{margin:8px 0 0;font-size:18px}
+.lead{color:var(--ink-dim);margin:18px 0 0}
+.note{color:var(--ink-faint);font-size:14.5px;margin:10px 0 0}
+.hr{height:1px;background:rgba(255,255,255,.12);margin:24px 0}
+.sec{margin-top:30px}
+.sech{font-size:13px;letter-spacing:2.2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin:0 0 4px}
+.q{background:linear-gradient(150deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px 16px 14px;margin-top:12px}
+.q>label,.q>.ql{display:block;font-weight:600;color:#FFF6EE;margin-bottom:10px;line-height:1.38}
+.q .hint{display:block;font-weight:400;color:var(--ink-faint);font-size:14.5px;margin-top:3px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label{display:inline-block;padding:10px 15px;border-radius:22px;border:1px solid rgba(247,239,233,.24);
+  background:rgba(255,255,255,.05);font-size:16px;cursor:pointer;user-select:none;transition:background .15s,border-color .15s}
+.chips input:checked+label{border-color:var(--coral);background:rgba(232,132,95,.24);color:#FFF}
+.chips input:focus-visible+label{outline:2px solid var(--gold);outline-offset:2px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.scale label{padding:12px 0;text-align:center;font-weight:700;font-size:18px}
+.ends{display:flex;justify-content:space-between;color:var(--ink-faint);font-size:13px;margin-top:6px}
+input[type=text],textarea{width:100%;padding:13px 14px;border-radius:12px;border:1px solid rgba(247,239,233,.24);
+  background:rgba(255,255,255,.06);color:var(--ink);font:inherit;font-size:16.5px;outline:none}
+textarea{min-height:84px;resize:vertical}
+.sendwarn{display:none;margin:0 0 14px;padding:13px 15px;border-radius:12px;font-size:15.5px;
+  background:rgba(232,132,95,.16);border:1px solid rgba(232,132,95,.5);color:#FFE6D8}
+.sendwarn.on{display:block}
+input[type=text]:focus,textarea:focus{border-color:var(--coral)}
+::placeholder{color:var(--ink-faint);opacity:.8}
+.cond{display:none}.cond.on{display:block}
+.btn{display:block;width:100%;padding:17px;border-radius:32px;border:0;cursor:pointer;
+  background:linear-gradient(180deg,#EE9068,#DE7048);color:#2B1409;font:inherit;font-weight:700;font-size:19px;
+  box-shadow:0 6px 18px rgba(222,112,72,.32);margin-top:26px}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:none;border:1px solid rgba(247,239,233,.4);color:var(--ink);font-weight:500;box-shadow:none;margin-top:12px;font-size:17px}
+.done{display:none;text-align:center;padding:26px 6px 0}
+.done.on{display:block}
+.done h2{font-size:25px;font-weight:400;margin:0 0 10px;color:#FFF6EE}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#FFF;color:#22265C;
+  padding:11px 20px;border-radius:22px;font-weight:600;font-size:15px;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.on{opacity:1}
+.foot{color:var(--ink-faint);font-size:12.5px;text-align:center;margin-top:28px;opacity:.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>An Enchanting Evening<sup>™</sup></h1>
+<p class="sub">Tester Evaluation</p>
+<p class="lead">Thank you for playing. This takes about five minutes. Answer as much or as little as you like &mdash; every answer helps, and honest ones help most.</p>
+<p class="lead">If you can, <b style="color:#FFF6EE">each fill one in</b>. You may have felt differently about the same evening.</p>
+<p class="note" id="howsend"></p>
+
+<form id="f" onsubmit="return false" autocomplete="off">
+
+<div class="sec">
+  <p class="sech">About you</p>
+  <div class="q">
+    <label for="couple">1. Couple number</label>
+    <input type="text" id="couple" name="Couple number" maxlength="12" autocomplete="off">
+  </div>
+  <div class="q"><span class="ql">2. Your age</span>
+    <div class="chips" data-name="Age" data-opts="Under 30|30–39|40–49|50–59|60–69|70+"></div></div>
+  <div class="q"><span class="ql">3. Your relationship</span>
+    <div class="chips" data-name="Relationship" data-opts="Dating|Engaged|Married / Committed relationship"></div></div>
+  <div class="q"><span class="ql">4. About how long have you been together?</span>
+    <div class="chips" data-name="Time together" data-opts="Less than 1 year|1–5 years|6–10 years|11–20 years|More than 20 years"></div></div>
+</div>
+
+<div class="sec">
+  <p class="sech">Your evening</p>
+  <div class="q"><span class="ql">5. Overall, how much did you enjoy An Enchanting Evening™?</span>
+    <div class="chips" data-name="Enjoyment" data-opts="Loved it|Really enjoyed it|It was okay|Didn’t enjoy it"></div></div>
+  <div class="q"><span class="ql">6. Did the game help create a romantic mood?</span>
+    <div class="chips" data-name="Romantic mood" data-opts="Very much|Somewhat|A little|Not really"></div></div>
+  <div class="q"><span class="ql">7. Did you reach the Finish?</span>
+    <div class="chips" id="endq" data-name="Reached the Finish" data-opts="Yes|No"></div></div>
+  <div class="q cond" id="whyq">
+    <span class="ql">If no, what brought the evening to a close?</span>
+    <div class="chips" data-name="Why it ended" data-opts="We finished the evening our own way|We ran out of time|A card wasn’t comfortable for us|We lost interest|Something else"></div>
+    <label for="whyelse" class="hint" style="display:block;margin-top:10px">If something else, what was it?</label>
+    <input type="text" id="whyelse" name="Why it ended — other" maxlength="120" autocomplete="off">
+  </div>
+  <div class="q"><span class="ql">8. About how long did you play?</span>
+    <div class="chips" data-name="Length of play" data-opts="Under 30 minutes|30–60 minutes|1–1½ hours|Over 1½ hours"></div></div>
+  <div class="q"><span class="ql">9. How did the length of the game feel?</span>
+    <div class="chips" data-name="Game length felt" data-opts="About right|A little short|Too short|A little long|Too long"></div></div>
+</div>
+
+<div class="sec">
+  <p class="sech">Playing on a phone or tablet</p>
+  <div class="q"><span class="ql">10. What did you play on?</span>
+    <div class="chips" data-name="Device" data-opts="Phone|Tablet|Computer"></div></div>
+  <div class="q"><span class="ql">11. Overall, how did playing a romantic game on a phone or tablet feel?</span>
+    <div class="chips" data-name="Playing on a screen" data-opts="It felt natural — we hardly noticed the device|It was okay|It was a little awkward|The device got in the way of the experience"></div></div>
+  <div class="q"><span class="ql">12. How did sharing one device feel?</span>
+    <div class="chips" data-name="Sharing one device" data-opts="Easy and natural|Fine once we got used to it|A little awkward|It interrupted the mood"></div></div>
+  <div class="q">
+    <label for="screen">13. Was there anything you especially liked or disliked about playing on a screen, or anything that was confusing or didn’t work properly?</label>
+    <textarea id="screen" name="Playing on a screen — comments"></textarea>
+  </div>
+</div>
+
+<div class="sec">
+  <p class="sech">The game &amp; cards</p>
+  <div class="q"><span class="ql">14. Were the game directions easy to understand?</span>
+    <div class="chips" data-name="Game directions clear" data-opts="Yes, throughout|Mostly|Sometimes confusing|Often confusing"></div></div>
+  <div class="q"><span class="ql">15. Were the card directions easy to understand?</span>
+    <div class="chips" data-name="Card directions clear" data-opts="Yes, throughout|Mostly|Sometimes confusing|Often confusing"></div></div>
+</div>
+
+<div class="sec">
+  <p class="sech">Overall</p>
+  <div class="q"><span class="ql">16. How did you like the overall look of the game — the board, cards and pieces?</span>
+    <div class="chips" data-name="Look of the game" data-opts="Loved it|Liked it|It was okay|Didn’t care for it"></div></div>
+  <div class="q"><span class="ql">17. Would you recommend An Enchanting Evening™ to another couple?</span>
+    <div class="chips" data-name="Recommend" data-opts="Definitely|Probably|Maybe|Probably not|Definitely not"></div></div>
+</div>
+
+<div class="sec">
+  <p class="sech">Last word</p>
+  <div class="q">
+    <label for="else">18. Anything else you’d like us to know?</label>
+    <textarea id="else" name="Anything else"></textarea>
+  </div>
+</div>
+
+<p class="sendwarn" id="sendwarn"></p>
+<button class="btn" type="button" id="sendbtn" onclick="sendIt()">Send my answers</button>
+<button class="btn ghost" type="button" onclick="copyIt()">Copy my answers instead</button>
+</form>
+
+<div class="done" id="done">
+  <h2>Thank you!</h2>
+  <p style="color:var(--ink-dim)">Your email app should now be open with your answers in it &mdash; just tap Send. If it didn’t open, go back and use <b>Copy my answers instead</b>, then paste them into an email to us.</p>
+  <button class="btn ghost" type="button" onclick="back()">Back to my answers</button>
+</div>
+
+<p class="foot">© Time for Two, Inc. 1990 to 2026</p>
+</div>
+<div class="toast" id="toast">Copied</div>
+
+<script>
+/* ---- WHERE ANSWERS GO -------------------------------------------------
+   The address the tester's email opens addressed to. Leave it '' and the
+   email opens with an empty To: line for the tester to fill in.          */
+/* ---------------------------------------------------------------------------
+   WHERE THE ANSWERS GO
+   Paste the Formspree endpoint for this form between the quotes. It looks like
+   https://formspree.io/f/xxxxxxxx and comes from the Formspree dashboard
+   (+ Add New > New Form). The address the answers are forwarded to is set
+   inside Formspree, not here.
+   Leave it empty and the form falls back to "copy my answers".
+--------------------------------------------------------------------------- */
+const FORMSPREE_ENDPOINT = '';
+
+/* Where the answers go when no Formspree endpoint is set: the tester's own mail
+   app opens with the completed answers already written, addressed here, and they
+   press send. It works with no setup at all, but it does depend on the tester
+   having mail set up on the device they played on -- which is why the Formspree
+   endpoint above is better once it exists. Fill that in and it takes over
+   automatically; nothing else changes. */
+const SEND_TO = 'michael@timefortwo.com';
+
+const BUILD   = 'v29';
+const SUBJECT = 'An Enchanting Evening — tester evaluation';
+
+/* build the tap-choice rows */
+let uid=0;
+document.querySelectorAll('.chips').forEach(function(box){
+  const name=box.dataset.name;
+  box.dataset.opts.split('|').forEach(function(opt){
+    const id='c'+(uid++);
+    const i=document.createElement('input'); i.type='radio'; i.name=name; i.value=opt; i.id=id;
+    const l=document.createElement('label'); l.htmlFor=id; l.textContent=opt;
+    /* tap a chosen answer again to clear it */
+    l.addEventListener('click',function(e){ if(i.checked){ e.preventDefault(); i.checked=false; onChange(); } });
+    box.appendChild(i); box.appendChild(l);
+  });
+});
+function pick(name,val){ const el=[...document.getElementsByName(name)].find(x=>x.value===val); if(el) el.checked=true; }
+function onChange(){
+  const early=[...document.getElementsByName('Reached the Finish')].some(x=>x.checked&&x.value==='No');
+  document.getElementById('whyq').classList.toggle('on',early);
+}
+document.getElementById('f').addEventListener('change',onChange);
+
+/* The note under the heading has to match how the answers actually travel,
+   which depends on whether a Formspree endpoint has been set. */
+document.getElementById('howsend').innerHTML = FORMSPREE_ENDPOINT
+  ? 'Nothing is saved on this page. Tap <b>Send my answers</b> when you are done and they come straight to us.'
+  : 'Nothing is saved on this page. When you tap <b>Send my answers</b>, your own email app opens with your answers filled in, and you choose whether to send it.';
+
+/* the game hands over how the evening ended, so testers don't have to recall it */
+const P=new URLSearchParams(location.search);
+const WHY=['We finished the evening our own way','We ran out of time','A card wasn’t comfortable for us','We lost interest','Something else'];
+if(P.get('end')==='finish') pick('Reached the Finish','Yes');
+if(P.get('end')==='early')  pick('Reached the Finish','No');
+/* the couple letter from the link pre-fills question 1, if it was used */
+if(P.get('c')) document.getElementById('couple').value = P.get('c');
+if(P.get('why')!==null && WHY[+P.get('why')]) pick('Why it ended',WHY[+P.get('why')]);
+onChange();
+
+function answers(){
+  const lines=[], seen={};
+  document.querySelectorAll('#f input, #f textarea').forEach(function(el){
+    const n=el.name; if(!n) return;
+    if(el.type==='radio'){ if(seen[n]) return; seen[n]=1;
+      if(n.indexOf('Why it ended')===0 && !document.getElementById('whyq').classList.contains('on')) return;
+      const c=[...document.getElementsByName(n)].find(x=>x.checked);
+      lines.push(n+': '+(c?c.value:'—'));
+    } else {
+      const v=el.value.trim();
+      lines.push(el.tagName==='TEXTAREA' ? n+':\n'+(v||'—')+'\n' : n+': '+(v||'—'));
+    }
+  });
+  lines.push('', 'Cards played: '+(P.get('cards')||'not recorded')+'   ·   Build: '+(P.get('v')||BUILD));
+  return 'AN ENCHANTING EVENING — TESTER EVALUATION\n\n'+lines.join('\n');
+}
+
+/* the same answers as named fields, so the Formspree email and dashboard are
+   readable rather than one wall of text */
+function payload(){
+  const o = {}, seen = {};
+  document.querySelectorAll('#f input, #f textarea').forEach(function(el){
+    const n = el.name; if (!n) return;
+    if (el.type === 'radio') {
+      if (seen[n]) return; seen[n] = 1;
+      if (n.indexOf('Why it ended')===0 && !document.getElementById('whyq').classList.contains('on')) return;
+      const c = [...document.getElementsByName(n)].find(x => x.checked);
+      o[n] = c ? c.value : '';
+    } else { o[n] = el.value.trim(); }
+  });
+  /* the couple letter and partner number come from the tester's own link
+     (?c=A&p=1), so answers can be paired without anyone giving their name */
+  /* Barbara's form asks for the couple number directly, so that is the label
+     we trust; the ?c= and ?p= link parameters only fill it in if they were used. */
+  const typed = (document.getElementById('couple').value || '').trim();
+  const couple = typed || P.get('c') || '';
+  o['Cards played'] = P.get('cards') || 'not recorded';
+  o['Build']        = P.get('v') || BUILD;
+  if (P.get('p')) o['Partner'] = P.get('p');
+  o['_subject']     = SUBJECT + (couple ? ' — couple ' + couple : '')
+                    + (P.get('p') ? ', partner ' + P.get('p') : '');
+  return o;
+}
+function showDone(){
+  document.getElementById('f').style.display='none';
+  document.getElementById('done').classList.add('on');
+  window.scrollTo(0,0);
+}
+/* If the send fails -- no endpoint set, no signal, Formspree down -- say so
+   plainly and put the copy button in front of them, rather than showing a
+   thank-you for answers that never arrived. */
+function sendFailed(msg){
+  const w = document.getElementById('sendwarn');
+  w.textContent = msg + ' Tap “Copy my answers instead” and paste them into an email to us — nothing you typed is lost.';
+  w.classList.add('on');
+  w.scrollIntoView({behavior:'smooth', block:'center'});
+}
+/* no endpoint yet -- hand the answers to the tester's mail app */
+function mailFallback(){
+  const body = answers();
+  const href = 'mailto:' + SEND_TO + '?subject=' + encodeURIComponent(SUBJECT)
+             + '&body=' + encodeURIComponent(body.replace(/\n/g,'\r\n'));
+  let left = false;
+  window.addEventListener('blur', function(){ left = true; }, {once:true});
+  window.location.href = href;
+  /* if the mail app never opened, say so rather than show a thank-you */
+  setTimeout(function(){
+    if (left) showDone();
+    else sendFailed('We could not open your email app.');
+  }, 1400);
+}
+function sendIt(){
+  const btn = document.getElementById('sendbtn');
+  document.getElementById('sendwarn').classList.remove('on');
+  if (!FORMSPREE_ENDPOINT) { mailFallback(); return; }
+  btn.disabled = true; const label = btn.textContent; btn.textContent = 'Sending…';
+  fetch(FORMSPREE_ENDPOINT, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json', 'Accept':'application/json'},
+    body: JSON.stringify(payload())
+  })
+  .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); showDone(); })
+  .catch(function(){ btn.disabled=false; btn.textContent=label;
+                     sendFailed('We couldn’t send your answers just now.'); });
+}
+function back(){ document.getElementById('done').classList.remove('on'); document.getElementById('f').style.display=''; }
+function copyIt(){
+  const t=answers();
+  const ok=function(){ const x=document.getElementById('toast'); x.textContent='Answers copied — paste them into an email to us'; x.classList.add('on'); setTimeout(()=>x.classList.remove('on'),2600); };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(ok,fallback); } else fallback();
+  function fallback(){ const a=document.createElement('textarea'); a.value=t; document.body.appendChild(a); a.select(); try{document.execCommand('copy');}catch(e){} a.remove(); ok(); }
+}
+</script>
+</body>
+</html>
