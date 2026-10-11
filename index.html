@@ -104,6 +104,16 @@ input::placeholder{color:var(--ink-faint)}
   border-radius:50%;background:radial-gradient(circle,rgba(244,160,92,.30) 0,rgba(228,84,92,.13) 45%,transparent 72%);
   pointer-events:none}
 .candlephoto{position:relative;max-width:230px;width:62%;filter:drop-shadow(0 10px 26px rgba(0,0,0,.45))}
+/* The closing screen carries more words since 11 Oct. On a short phone the
+   text area scrolls instead of pushing Done off the bottom, and the candles
+   shrink so that it rarely has to. 'safe center' keeps the top reachable
+   when it does scroll.                                                    */
+#s-thanks .grow{min-height:0;overflow-y:auto;justify-content:safe center}
+@media (max-height:720px){
+  /* !important because the photo carries an inline width */
+  #s-thanks .candlephoto{max-width:124px !important;width:34% !important}
+  #s-thanks h2{margin-top:14px !important}
+}
 .candle{position:relative;width:110px;height:150px}
 .flame{position:absolute;left:50%;bottom:58px;transform:translateX(-50%);width:24px;height:56px;
   border-radius:50% 50% 46% 46%/62% 62% 38% 38%;
@@ -606,17 +616,7 @@ a.inl{color:#FFD27A}
       <p id="w1txt" style="margin:0;font-size:19px"></p>
     </div>
   </div>
-  <button class="btn" onclick="go('why')">Continue</button>
-</div>
-
-<!-- WHY -->
-<div class="screen" id="s-why">
-  <h2>One question before you go</h2>
-  <p class="dim">Please tell us why you ended the game early.</p>
-  <div style="margin-top:18px" id="whyopts"></div>
-  <div class="grow"></div>
-  <button class="btn" id="whybtn" disabled onclick="sendWhy()">Send</button>
-  <button class="link" style="align-self:center;margin-top:14px" onclick="go('thanks')">Skip</button>
+  <button class="btn" onclick="go('thanks')">Continue</button>
 </div>
 
 <!-- THANKS -->
@@ -626,8 +626,10 @@ a.inl{color:#FFD27A}
       <div class="candleglow" style="bottom:auto;top:50%;transform:translate(-50%,-50%);width:74%;padding-bottom:74%"></div>
       <img class="candlephoto" id="thankimg" src="" alt="" style="max-width:208px;width:56%">
     </div>
-    <h2 style="margin-top:26px">Enjoy the rest of your evening</h2>
-    <p class="dim" style="max-width:320px">Thank you for playing An Enchanting Evening™.</p>
+    <h2 style="margin-top:26px">Enjoy the rest of your evening!</h2>
+    <p class="dim" style="max-width:330px">Thank you for testing the browser version of the game, An Enchanting Evening™.</p>
+    <p style="max-width:336px;margin-top:16px;color:#FFEDE2">One last favor, tomorrow: please each of you, separately, fill out the short evaluation form. The link to it is in your Invitation.</p>
+    <p class="dim" style="max-width:330px;margin-top:10px">It only takes about 5 minutes, and it’s the whole reason for this test.</p>
   </div>
   <button class="btn ghost" onclick="go('portal')">Done</button>
 </div>
@@ -651,7 +653,11 @@ a.inl{color:#FFD27A}
 
 </div>
 <script>
-/* ===== AN ENCHANTING EVENING — prototype v27 (tester build, 3 Oct 2026) =====
+/* ===== AN ENCHANTING EVENING — prototype v31 (tester build, 11 Oct 2026) =====
+   v31: the evaluation is reached only from the Invitation, the next day. The
+   leave-early question is gone (it moves into the evaluation form), and the
+   game no longer links to the form at all.
+   v30: board colours matched to the cards; die no longer re-rolls on return.
    v27: Time for Two pages after the splash (layout draft, 3 pages).
    v26: 10-3 edits -- cards 4, 15, 16, 22, 29; no card ever borrowed from an
    earlier colour; game ends without the evaluation; new leave-early question;
@@ -663,8 +669,6 @@ a.inl{color:#FFD27A}
    v23: board drawn in code (fills any phone or tablet, no Interlude space),
    Pass, re-read, Pause & resume, Q & A and Terms pages, new Winner screen,
    larger card intros, 9-27 text edits and cards 18-19.                     */
-
-const EVAL_URL = 'aee-evaluation.html';   // same folder as the game
 
 /* FINAL 32-card deck (23 Sep 2026; cards 18 and 19 revised 27 Sep).
    n = the card's number in the deck document. Three colour groups, cut so
@@ -713,16 +717,7 @@ const CARDS = {
  ]
 };
 
-/* asked only when a couple leaves early (10-3 wording, MDJ) */
-const WHY = ['This was fun… does anyone finish the game?','The game was taking too long.',
-  'The game really wasn’t for us.','We didn’t like playing on a digital device.','Something else.'];
-/* Where the leave-early answer goes. '' = nowhere (it stays on the screen).
-   Once the Formspree form exists, put its address here, e.g.
-   'https://formspree.io/f/abcd1234' -- then only the reason chosen, the
-   number of cards played and the build are sent. Nothing typed, no names. */
-const LEAVE_REASON_URL = '';
-
-const VERSION_LABEL = 'Prototype v29 · tester build';
+const VERSION_LABEL = 'Prototype v31 · tester build';
 const OPENER = CARDS.playful[0];
 const FINISH_CARD = CARDS.intimate[CARDS.intimate.length-1];
 const ALL = [...CARDS.playful, ...CARDS.mid, ...CARDS.intimate];
@@ -743,7 +738,7 @@ const CARD_POOLS = {};
   CARD_POOLS[tier+'_touch'] = CARDS[tier].filter(c => c.t==='touch' && c!==OPENER && c!==FINISH_CARD);
 });
 
-const G = {names:['',''], wishes:['',''], pos:[0,0], turn:0, decks:{}, why:null, won:-1,
+const G = {names:['',''], wishes:['',''], pos:[0,0], turn:0, decks:{}, won:-1,
            hist:[[],[]], recent:[], openerUsed:false, pending:null, last:null, wishIdx:0};
 const $ = id => document.getElementById(id);
 
@@ -767,7 +762,6 @@ function go(n){
   const nx = 's-'+n;
   $(current).classList.remove('on'); $(nx).classList.add('on'); current = nx;
   $('app').classList.toggle('wide-board', n==='game');
-  if (n==='why') renderWhy();
   if (n.startsWith('about')) { const sc=$(nx).querySelector('.ascroll'); if (sc) sc.scrollTop=0; }
   if (n==='names') setTimeout(function(){ try{ $('n0').focus(); }catch(e){} }, 340);
   if (n==='game') setTimeout(function(){ buildBoard(); renderTurn(); }, 40);
@@ -882,14 +876,14 @@ function cardBackground(tier){
 /* colours taken from the brighter board sample (9-29): amber row all one
    bright gold; blue deepens toward the top; red deepens toward Finish.   */
 const BOARD_SHADE = {
-  playful:  {a:[92,182,255], b:[0,58,226]},     // space 1 (light) -> 7 (deep)
-  mid:      {a:[253,166,4],  b:[253,160,2]},    // 8-13 all bright gold
-  intimate: {a:[255,106,132], b:[150,0,22]}     // 14 (light) -> 20 (deep)
+  playful:  {a:[0,107,255],  b:[0,77,184]},     // space 1 (light) -> 7 (deep)
+  mid:      {a:[253,166,4],  b:[224,139,6]},    // 8 -> 13, bright gold, gentle deepening
+  intimate: {a:[235,7,54],   b:[158,5,36]}      // 14 (light) -> 20 (deep)
 };
 const GROUP_SPAN = {playful:[1,7], mid:[8,13], intimate:[14,20]};
 function spaceRGB(i){
-  if (i <= 0) return [0,78,222];
-  if (i >= FINISH) return [170,0,26];
+  if (i <= 0) return [0,107,255];
+  if (i >= FINISH) return [158,5,36];
   const tier = BOARD[i-1].tier, [lo,hi] = GROUP_SPAN[tier], s = BOARD_SHADE[tier];
   const t = (i-lo)/(hi-lo);
   return s.a.map((v,k) => Math.round(v + (s.b[k]-v)*t));
@@ -948,7 +942,7 @@ function placeTokens(instant){
 function beginGame(){
   G.decks = {};
   Object.keys(CARD_POOLS).forEach(k => { G.decks[k] = shuffle([...CARD_POOLS[k]]); });
-  G.pos = [0,0]; G.turn = 0; G.won = -1; G.why = null; G.hist = [[],[]]; G.recent = [];
+  G.pos = [0,0]; G.turn = 0; G.won = -1; G.hist = [[],[]]; G.recent = [];
   G.openerUsed = false; G.pending = null; G.last = null;
   saveGame();
   go('game');
@@ -982,7 +976,11 @@ function roll(){
   const die = $('dieimg');
   die.classList.remove('toss'); void die.offsetWidth; die.classList.add('toss');
   let k = 0; const flick = setInterval(() => { die.src = DIE_IMG[1 + (k++ % 2)]; }, 110);
-  setTimeout(() => { clearInterval(flick); die.src = DIE_IMG[n]; }, 880);
+  setTimeout(() => { clearInterval(flick); die.src = DIE_IMG[n];
+    /* Drop the animation class once the die has landed. Left on, the CSS
+       animation replays every time the game screen is shown again -- which
+       looked like the die re-rolling by itself on return from a card. */
+    die.classList.remove('toss'); }, 950);
   $('turnhint').textContent = '';
   $('lastlink').style.visibility = 'hidden';
   const from = G.pos[G.turn];
@@ -1106,35 +1104,6 @@ function endEarly(){
   $('w1txt').textContent = G.wishes[1] || '—';
   go('wishes');
 }
-function renderWhy(){
-  $('whyopts').innerHTML = WHY.map((t,i) => `<button class="opt ${G.why===i?'sel':''}" onclick="pickWhy(${i})">${t}</button>`).join('');
-  $('whybtn').disabled = G.why === null;
-}
-function pickWhy(i){ G.why = i; renderWhy(); }
-function sendWhy(){
-  if (LEAVE_REASON_URL && G.why !== null) {
-    try {
-      fetch(LEAVE_REASON_URL, {method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'},
-        body: JSON.stringify({_subject:'AEE: left early', reason: WHY[G.why], cards_played: G.hist[0].length+G.hist[1].length, build: VERSION_LABEL})}).catch(()=>{});
-    } catch(e) {}
-  }
-  go('thanks');
-}
-/* Hands the evaluation a few facts about how the evening went. Only in the
-   link -- nothing is sent anywhere. */
-function openEval(newTab){
-  if (!EVAL_URL) return;
-  const played = G.hist[0].length + G.hist[1].length;
-  const q = new URLSearchParams(played ? {
-    end: G.won >= 0 ? 'finish' : 'early',
-    why: G.why === null ? '' : String(G.why),
-    cards: String(played),
-    v: 'v29'
-  } : {});
-  const url = EVAL_URL + (played ? '?' + q.toString() : '');
-  if (newTab) window.open(url, '_blank'); else window.location.href = url;
-}
-
 /* ---- PAUSE & RESUME --------------------------------------------------------
    The game in progress is kept in this browser on this phone or tablet only,
    so a couple can close it and pick up later. It is wiped when the game ends
@@ -1176,7 +1145,7 @@ function showResume(){
 function resumeGame(){
   const d = readSaved(); if (!d) { go('portal'); return; }
   Object.assign(G, {names:d.names, wishes:d.wishes, pos:d.pos, turn:d.turn, hist:d.hist, recent:d.recent,
-    openerUsed:d.openerUsed, pending:d.pending, last:d.last, won:-1, why:null});
+    openerUsed:d.openerUsed, pending:d.pending, last:d.last, won:-1});
   G.decks = Object.fromEntries(Object.entries(d.decks).map(([k,v]) => [k, v.map(byN).filter(Boolean)]));
   keepHours = MAX_SAVE_HOURS;
   go('game');
@@ -1194,11 +1163,9 @@ function resumeFromPause(){ keepHours = MAX_SAVE_HOURS; saveGame(); go('game'); 
 /* ---- Q & A and TERMS (drafts for Michael and Barbara to edit) ---- */
 const QA_HTML = `<h2>Q &amp; A</h2>
  <p class="q">Do we have to do everything a card says?</p>
- <p class="dim">Not at all. Play at whatever level of intimacy is comfortable and fun for both of you. Change a card, make it your own, or simply move on to the next one.</p>
+ <p class="dim">Not at all. Play at whatever level of intimacy is comfortable and fun for both of you — make it your own.</p>
  <p class="q">What if we don’t know how to answer a question?</p>
  <p class="dim">There are no right answers. Say whatever comes to mind, or talk about the question together.</p>
- <p class="q">What if we land on the same space or card again?</p>
- <p class="dim">You can answer it differently, let your partner respond, or simply move ahead to the next card.</p>
  <p class="q">We tapped Back by mistake. Is the card gone?</p>
  <p class="dim">No. Tap the die and the same card comes right back. You won’t roll again until you’ve finished it.</p>
  <p class="q">Can we read the last card again?</p>

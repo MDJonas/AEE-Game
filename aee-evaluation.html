@@ -68,8 +68,8 @@ input[type=text]:focus,textarea:focus{border-color:var(--coral)}
 
 <h1>An Enchanting Evening<sup>™</sup></h1>
 <p class="sub">Tester Evaluation</p>
-<p class="lead">Thank you for playing. This takes about five minutes. Answer as much or as little as you like &mdash; every answer helps, and honest ones help most.</p>
-<p class="lead">If you can, <b style="color:#FFF6EE">each fill one in</b>. You may have felt differently about the same evening.</p>
+<p class="lead">Thank you for helping us test the digital version of An Enchanting Evening™. Your candid answers will help us improve the game.</p>
+<p class="lead">We would like <b style="color:#FFF6EE">each of you to fill this in separately</b>, the day after you play. It takes about 5 minutes.</p>
 <p class="note" id="howsend"></p>
 
 <form id="f" onsubmit="return false" autocomplete="off">
@@ -77,83 +77,86 @@ input[type=text]:focus,textarea:focus{border-color:var(--coral)}
 <div class="sec">
   <p class="sech">About you</p>
   <div class="q">
-    <label for="couple">1. Couple number</label>
-    <input type="text" id="couple" name="Couple number" maxlength="12" autocomplete="off">
+    <label for="me">1. Your first name</label>
+    <input type="text" id="me" name="Your first name" maxlength="40" autocomplete="off">
   </div>
-  <div class="q"><span class="ql">2. Your age</span>
+  <div class="q">
+    <label for="partner">2. Your partner’s first name</label>
+    <input type="text" id="partner" name="Partner’s first name" maxlength="40" autocomplete="off">
+    <span class="hint">So we can read your two evaluations side by side.</span>
+  </div>
+  <div class="q"><span class="ql">3. Your age</span>
     <div class="chips" data-name="Age" data-opts="Under 30|30–39|40–49|50–59|60–69|70+"></div></div>
-  <div class="q"><span class="ql">3. Your relationship</span>
+  <div class="q"><span class="ql">4. Your relationship</span>
     <div class="chips" data-name="Relationship" data-opts="Dating|Engaged|Married / Committed relationship"></div></div>
-  <div class="q"><span class="ql">4. About how long have you been together?</span>
+  <div class="q"><span class="ql">5. About how long have you been together?</span>
     <div class="chips" data-name="Time together" data-opts="Less than 1 year|1–5 years|6–10 years|11–20 years|More than 20 years"></div></div>
 </div>
 
 <div class="sec">
   <p class="sech">Your evening</p>
-  <div class="q"><span class="ql">5. Overall, how much did you enjoy An Enchanting Evening™?</span>
+  <div class="q"><span class="ql">6. Overall, how much did you enjoy An Enchanting Evening™?</span>
     <div class="chips" data-name="Enjoyment" data-opts="Loved it|Really enjoyed it|It was okay|Didn’t enjoy it"></div></div>
-  <div class="q"><span class="ql">6. Did the game help create a romantic mood?</span>
+  <div class="q"><span class="ql">7. Did the game help create a romantic mood?</span>
     <div class="chips" data-name="Romantic mood" data-opts="Very much|Somewhat|A little|Not really"></div></div>
-  <div class="q"><span class="ql">7. Did you reach the Finish?</span>
+  <div class="q"><span class="ql">8. Did you reach the Finish?</span>
     <div class="chips" id="endq" data-name="Reached the Finish" data-opts="Yes|No"></div></div>
   <div class="q cond" id="whyq">
-    <span class="ql">If no, what brought the evening to a close?</span>
-    <div class="chips" data-name="Why it ended" data-opts="We finished the evening our own way|We ran out of time|A card wasn’t comfortable for us|We lost interest|Something else"></div>
-    <label for="whyelse" class="hint" style="display:block;margin-top:10px">If something else, what was it?</label>
-    <input type="text" id="whyelse" name="Why it ended — other" maxlength="120" autocomplete="off">
+    <label for="whytext">If no, please tell us why you didn’t.</label>
+    <textarea id="whytext" name="Why it ended early"></textarea>
   </div>
-  <div class="q"><span class="ql">8. About how long did you play?</span>
+  <div class="q"><span class="ql">9. About how long did you play?</span>
     <div class="chips" data-name="Length of play" data-opts="Under 30 minutes|30–60 minutes|1–1½ hours|Over 1½ hours"></div></div>
-  <div class="q"><span class="ql">9. How did the length of the game feel?</span>
-    <div class="chips" data-name="Game length felt" data-opts="About right|A little short|Too short|A little long|Too long"></div></div>
+  <div class="q"><span class="ql">10. How did the length of the game feel?</span>
+    <div class="chips" data-name="Game length felt" data-opts="Too short|A little short|About right|A little long|Too long"></div></div>
 </div>
 
 <div class="sec">
   <p class="sech">Playing on a phone or tablet</p>
-  <div class="q"><span class="ql">10. What did you play on?</span>
+  <div class="q"><span class="ql">11. What did you play on?</span>
     <div class="chips" data-name="Device" data-opts="Phone|Tablet|Computer"></div></div>
-  <div class="q"><span class="ql">11. Overall, how did playing a romantic game on a phone or tablet feel?</span>
+  <div class="q"><span class="ql">12. Overall, how did playing a romantic game on a phone or tablet feel?</span>
     <div class="chips" data-name="Playing on a screen" data-opts="It felt natural — we hardly noticed the device|It was okay|It was a little awkward|The device got in the way of the experience"></div></div>
-  <div class="q"><span class="ql">12. How did sharing one device feel?</span>
+  <div class="q"><span class="ql">13. How did sharing one device feel?</span>
     <div class="chips" data-name="Sharing one device" data-opts="Easy and natural|Fine once we got used to it|A little awkward|It interrupted the mood"></div></div>
   <div class="q">
-    <label for="screen">13. Was there anything you especially liked or disliked about playing on a screen, or anything that was confusing or didn’t work properly?</label>
+    <label for="screen">14. Was there anything you especially liked or disliked about playing on a screen, or anything that was confusing or didn’t work properly?</label>
     <textarea id="screen" name="Playing on a screen — comments"></textarea>
   </div>
 </div>
 
 <div class="sec">
   <p class="sech">The game &amp; cards</p>
-  <div class="q"><span class="ql">14. Were the game directions easy to understand?</span>
+  <div class="q"><span class="ql">15. Were the game directions easy to understand?</span>
     <div class="chips" data-name="Game directions clear" data-opts="Yes, throughout|Mostly|Sometimes confusing|Often confusing"></div></div>
-  <div class="q"><span class="ql">15. Were the card directions easy to understand?</span>
+  <div class="q"><span class="ql">16. Were the card directions easy to understand?</span>
     <div class="chips" data-name="Card directions clear" data-opts="Yes, throughout|Mostly|Sometimes confusing|Often confusing"></div></div>
 </div>
 
 <div class="sec">
   <p class="sech">Overall</p>
-  <div class="q"><span class="ql">16. How did you like the overall look of the game — the board, cards and pieces?</span>
+  <div class="q"><span class="ql">17. How did you like the overall look of the game — the board, cards and pieces?</span>
     <div class="chips" data-name="Look of the game" data-opts="Loved it|Liked it|It was okay|Didn’t care for it"></div></div>
-  <div class="q"><span class="ql">17. Would you recommend An Enchanting Evening™ to another couple?</span>
+  <div class="q"><span class="ql">18. Would you recommend An Enchanting Evening™ to another couple?</span>
     <div class="chips" data-name="Recommend" data-opts="Definitely|Probably|Maybe|Probably not|Definitely not"></div></div>
 </div>
 
 <div class="sec">
   <p class="sech">Last word</p>
   <div class="q">
-    <label for="else">18. Anything else you’d like us to know?</label>
-    <textarea id="else" name="Anything else"></textarea>
+    <label for="else">19. Anything else you’d like us to know?</label>
+    <textarea id="else" name="Anything else" style="min-height:120px"></textarea>
   </div>
 </div>
 
 <p class="sendwarn" id="sendwarn"></p>
-<button class="btn" type="button" id="sendbtn" onclick="sendIt()">Send my answers</button>
+<button class="btn" type="button" id="sendbtn" onclick="sendIt()">Submit</button>
 <button class="btn ghost" type="button" onclick="copyIt()">Copy my answers instead</button>
 </form>
 
 <div class="done" id="done">
   <h2>Thank you!</h2>
-  <p style="color:var(--ink-dim)">Your email app should now be open with your answers in it &mdash; just tap Send. If it didn’t open, go back and use <b>Copy my answers instead</b>, then paste them into an email to us.</p>
+  <p style="color:var(--ink-dim)">Your answers have reached us. Thank you for helping us make An Enchanting Evening™ better.</p>
   <button class="btn ghost" type="button" onclick="back()">Back to my answers</button>
 </div>
 
@@ -163,27 +166,18 @@ input[type=text]:focus,textarea:focus{border-color:var(--coral)}
 
 <script>
 /* ---- WHERE ANSWERS GO -------------------------------------------------
-   The address the tester's email opens addressed to. Leave it '' and the
-   email opens with an empty To: line for the tester to fill in.          */
-/* ---------------------------------------------------------------------------
-   WHERE THE ANSWERS GO
    Paste the Formspree endpoint for this form between the quotes. It looks like
    https://formspree.io/f/xxxxxxxx and comes from the Formspree dashboard
    (+ Add New > New Form). The address the answers are forwarded to is set
    inside Formspree, not here.
-   Leave it empty and the form falls back to "copy my answers".
+   Leave it empty and Submit says so plainly instead of pretending to send.
 --------------------------------------------------------------------------- */
-const FORMSPREE_ENDPOINT = '';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xzedvker';
 
-/* Where the answers go when no Formspree endpoint is set: the tester's own mail
-   app opens with the completed answers already written, addressed here, and they
-   press send. It works with no setup at all, but it does depend on the tester
-   having mail set up on the device they played on -- which is why the Formspree
-   endpoint above is better once it exists. Fill that in and it takes over
-   automatically; nothing else changes. */
-const SEND_TO = 'michael@timefortwo.com';
+/* Answers go to Formspree and nowhere else -- no email route (10 Oct decision).
+   The game does not link here; the only route is the Invitation (11 Oct). */
 
-const BUILD   = 'v29';
+const BUILD   = 'v31';
 const SUBJECT = 'An Enchanting Evening — tester evaluation';
 
 /* build the tap-choice rows */
@@ -199,43 +193,34 @@ document.querySelectorAll('.chips').forEach(function(box){
     box.appendChild(i); box.appendChild(l);
   });
 });
-function pick(name,val){ const el=[...document.getElementsByName(name)].find(x=>x.value===val); if(el) el.checked=true; }
 function onChange(){
   const early=[...document.getElementsByName('Reached the Finish')].some(x=>x.checked&&x.value==='No');
   document.getElementById('whyq').classList.toggle('on',early);
 }
 document.getElementById('f').addEventListener('change',onChange);
+onChange();
 
 /* The note under the heading has to match how the answers actually travel,
    which depends on whether a Formspree endpoint has been set. */
 document.getElementById('howsend').innerHTML = FORMSPREE_ENDPOINT
-  ? 'Nothing is saved on this page. Tap <b>Send my answers</b> when you are done and they come straight to us.'
-  : 'Nothing is saved on this page. When you tap <b>Send my answers</b>, your own email app opens with your answers filled in, and you choose whether to send it.';
+  ? 'Nothing is saved on this page. Tap <b>Submit</b> when you are done and your answers come straight to us.'
+  : '<b>Not connected yet.</b> This form has no destination set, so Submit will not work. Please tell Michael before sending this to testers.';
 
-/* the game hands over how the evening ended, so testers don't have to recall it */
-const P=new URLSearchParams(location.search);
-const WHY=['We finished the evening our own way','We ran out of time','A card wasn’t comfortable for us','We lost interest','Something else'];
-if(P.get('end')==='finish') pick('Reached the Finish','Yes');
-if(P.get('end')==='early')  pick('Reached the Finish','No');
-/* the couple letter from the link pre-fills question 1, if it was used */
-if(P.get('c')) document.getElementById('couple').value = P.get('c');
-if(P.get('why')!==null && WHY[+P.get('why')]) pick('Why it ended',WHY[+P.get('why')]);
-onChange();
-
+/* every answer as one block of text, for the copy-to-clipboard fallback */
 function answers(){
   const lines=[], seen={};
   document.querySelectorAll('#f input, #f textarea').forEach(function(el){
     const n=el.name; if(!n) return;
     if(el.type==='radio'){ if(seen[n]) return; seen[n]=1;
-      if(n.indexOf('Why it ended')===0 && !document.getElementById('whyq').classList.contains('on')) return;
       const c=[...document.getElementsByName(n)].find(x=>x.checked);
       lines.push(n+': '+(c?c.value:'—'));
     } else {
+      if(n==='Why it ended early' && !document.getElementById('whyq').classList.contains('on')) return;
       const v=el.value.trim();
       lines.push(el.tagName==='TEXTAREA' ? n+':\n'+(v||'—')+'\n' : n+': '+(v||'—'));
     }
   });
-  lines.push('', 'Cards played: '+(P.get('cards')||'not recorded')+'   ·   Build: '+(P.get('v')||BUILD));
+  lines.push('', 'Build: '+BUILD);
   return 'AN ENCHANTING EVENING — TESTER EVALUATION\n\n'+lines.join('\n');
 }
 
@@ -247,22 +232,17 @@ function payload(){
     const n = el.name; if (!n) return;
     if (el.type === 'radio') {
       if (seen[n]) return; seen[n] = 1;
-      if (n.indexOf('Why it ended')===0 && !document.getElementById('whyq').classList.contains('on')) return;
       const c = [...document.getElementsByName(n)].find(x => x.checked);
       o[n] = c ? c.value : '';
-    } else { o[n] = el.value.trim(); }
+    } else {
+      if (n==='Why it ended early' && !document.getElementById('whyq').classList.contains('on')) return;
+      o[n] = el.value.trim();
+    }
   });
-  /* the couple letter and partner number come from the tester's own link
-     (?c=A&p=1), so answers can be paired without anyone giving their name */
-  /* Barbara's form asks for the couple number directly, so that is the label
-     we trust; the ?c= and ?p= link parameters only fill it in if they were used. */
-  const typed = (document.getElementById('couple').value || '').trim();
-  const couple = typed || P.get('c') || '';
-  o['Cards played'] = P.get('cards') || 'not recorded';
-  o['Build']        = P.get('v') || BUILD;
-  if (P.get('p')) o['Partner'] = P.get('p');
-  o['_subject']     = SUBJECT + (couple ? ' — couple ' + couple : '')
-                    + (P.get('p') ? ', partner ' + P.get('p') : '');
+  /* No couple code: the two first names are what pair a couple's answers. */
+  const me = (document.getElementById('me').value || '').trim();
+  o['Build'] = BUILD;
+  o['_subject'] = SUBJECT + (me ? ' — ' + me : '');
   return o;
 }
 function showDone(){
@@ -279,24 +259,11 @@ function sendFailed(msg){
   w.classList.add('on');
   w.scrollIntoView({behavior:'smooth', block:'center'});
 }
-/* no endpoint yet -- hand the answers to the tester's mail app */
-function mailFallback(){
-  const body = answers();
-  const href = 'mailto:' + SEND_TO + '?subject=' + encodeURIComponent(SUBJECT)
-             + '&body=' + encodeURIComponent(body.replace(/\n/g,'\r\n'));
-  let left = false;
-  window.addEventListener('blur', function(){ left = true; }, {once:true});
-  window.location.href = href;
-  /* if the mail app never opened, say so rather than show a thank-you */
-  setTimeout(function(){
-    if (left) showDone();
-    else sendFailed('We could not open your email app.');
-  }, 1400);
-}
 function sendIt(){
   const btn = document.getElementById('sendbtn');
   document.getElementById('sendwarn').classList.remove('on');
-  if (!FORMSPREE_ENDPOINT) { mailFallback(); return; }
+  if (!FORMSPREE_ENDPOINT) {
+    sendFailed('This form is not connected yet — please let us know you finished it.'); return; }
   btn.disabled = true; const label = btn.textContent; btn.textContent = 'Sending…';
   fetch(FORMSPREE_ENDPOINT, {
     method: 'POST',
