@@ -151,7 +151,9 @@ input[type=text]:focus,textarea:focus{border-color:var(--coral)}
 
 <p class="sendwarn" id="sendwarn"></p>
 <button class="btn" type="button" id="sendbtn" onclick="sendIt()">Submit</button>
-<button class="btn ghost" type="button" onclick="copyIt()">Copy my answers instead</button>
+<!-- The rescue button. Hidden until a send actually fails, so the only thing a
+     tester sees at the bottom of the form is Submit (11 Oct, MDJ). -->
+<button class="btn ghost" type="button" id="copybtn" style="display:none" onclick="copyIt()">Copy my answers instead</button>
 </form>
 
 <div class="done" id="done">
@@ -257,11 +259,13 @@ function sendFailed(msg){
   const w = document.getElementById('sendwarn');
   w.textContent = msg + ' Tap “Copy my answers instead” and paste them into an email to us — nothing you typed is lost.';
   w.classList.add('on');
+  document.getElementById('copybtn').style.display = '';
   w.scrollIntoView({behavior:'smooth', block:'center'});
 }
 function sendIt(){
   const btn = document.getElementById('sendbtn');
   document.getElementById('sendwarn').classList.remove('on');
+  document.getElementById('copybtn').style.display = 'none';
   if (!FORMSPREE_ENDPOINT) {
     sendFailed('This form is not connected yet — please let us know you finished it.'); return; }
   btn.disabled = true; const label = btn.textContent; btn.textContent = 'Sending…';
