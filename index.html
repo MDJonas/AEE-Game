@@ -336,7 +336,7 @@ a.inl{color:#FFD27A}
 #s-win .wbody{justify-content:center}
 
 /* ---------- v25 ---------- */
-#s-game{background:radial-gradient(70% 55% at 50% 46%,#0B3E96 0%,#05266A 42%,#021848 78%,#011035 100%)}
+#s-game{background:radial-gradient(70% 55% at 50% 46%,#0E4BB4 0%,#063084 42%,#021C56 78%,#01123E 100%)}
 .sq{border:1px solid rgba(255,255,255,.55);
   box-shadow:inset 1px 1px 0 rgba(255,255,255,.65),inset -3px -5px 10px rgba(0,0,0,.18),0 0 10px var(--glow)}
 .diebox{width:86px;height:auto;perspective:none;margin:0 auto 20px}
@@ -653,7 +653,11 @@ a.inl{color:#FFD27A}
 
 </div>
 <script>
-/* ===== AN ENCHANTING EVENING — prototype v31 (tester build, 11 Oct 2026) =====
+/* ===== AN ENCHANTING EVENING — prototype v33 (tester build, 13 Oct 2026) =====
+   v33: 10-13 deck edits -- cards 11 and 15 swapped, 23 and 27 swapped,
+   cards 12, 16 and 28 rewritten.
+   v32: card 28 replaced (MDJ); the Terms page no longer says the evaluation
+   arrives by email — it is a link in the Invitation.
    v31: the evaluation is reached only from the Invitation, the next day. The
    leave-early question is gone (it moves into the evaluation form), and the
    game no longer links to the form at all.
@@ -688,28 +692,28 @@ const CARDS = {
   {n:8, t:'touch', i:'Pretending your fingers are your lips…', x:'With the lightest touch, let your fingertips “kiss” your partner’s lips.'},
   {n:9, t:'talk',  i:'Pack your imagination…', x:'You’ve won an all-expenses-paid trip for two. Where would you whisk your partner away to — explore, indulge, relax, or try something completely new?'},
   {n:10, t:'touch', i:'A little palmistry…', x:'Take your partner’s hand and slowly trace the lines of their palm with one fingertip.'},
-  {n:11, t:'talk',  i:'Go ahead — be a little irresistible…', x:'You’re spending this evening together because there’s mutual attraction — what two things do you believe your partner finds especially attractive about you?'}
+  {n:11, t:'talk',  i:'Place your bets…', x:'If your partner had to choose between a fancy dinner, a lazy day, or an unexpected adventure, which would win?'}
  ],
  mid:[
-  {n:12, t:'touch', i:'Each one of us is unique…', x:'Tenderly touch something that your partner has only one of.'},
+  {n:12, t:'touch', i:'There’s something that’s “outstanding” about each of us…', x:'Caress something of your partner’s that “casts a shadow.”'},
   {n:13, t:'talk',  i:'A little more fun ahead…', x:'What are two things you’d love to enjoy together this year — one easy to make happen, and one worth planning?'},
   {n:14, t:'touch', i:'Salt and pepper, rock and roll. Some things are just better in pairs…', x:'Gently caress something your partner has two of.'},
-  {n:15, t:'talk',  i:'Place your bets…', x:'If your partner had to choose between a fancy dinner, a lazy day, or an unexpected adventure, which would win?'},
-  {n:16, t:'touch', i:'Why risk a subtle hint…', x:'Where would you most enjoy a gentle massage from your partner?'},
+  {n:15, t:'talk',  i:'Go ahead — be a little irresistible…', x:'You’re spending this evening together because there’s mutual attraction — what two things do you believe your partner finds especially attractive about you?'},
+  {n:16, t:'touch', i:'There’s a little music in all of us.', x:'Place your ear near my heart and listen to its rhythmic beating.'},
   {n:17, t:'talk',  i:'Fresh-brewed coffee, salty ocean air, a favorite cologne…', x:'What scent brings back a favorite memory you’ve shared with your partner? Is there a story?'},
-  {n:18, t:'touch', i:'Well, that’s a little cheeky…', x:'Give your partner a gentle pat on the cheek of your choice.'},
+  {n:18, t:'touch', i:'Well, that’s a little cheeky…', x:'Give your partner a gentle pat on whichever cheek you choose.'},
   {n:19, t:'talk',  i:'Where you’re going, you won’t need GPS…', x:'H. G. Wells’ “Time Machine” is waiting in your driveway. Choose a moment in history — or the future — for a rendezvous with your partner. Where are you going?'},
   {n:20, t:'touch', i:'Pucker up…', x:'Kiss your partner where they don’t expect it. Stumped? Let them choose the surprise spot.'},
   {n:21, t:'talk',  i:'Your private concert is about to begin…', x:'Your favorite musicians are standing behind a screen in your bedroom… what music will you ask them to play?'}
  ],
  intimate:[
   {n:22, t:'touch', i:'The drinks are on you…', x:'Dab whatever you’re sipping somewhere on your body and ask your partner to have a taste.'},
-  {n:23, t:'talk',  i:'Anticipation is part of the pleasure…', x:'You’re looking forward to a romantic weekend away. What two articles of clothing do you hope your partner will bring?'},
+  {n:23, t:'talk',  i:'You’ve invited your partner for a romantic dinner.', x:'What will you serve for breakfast?'},
   {n:24, t:'touch', i:'Time to turn on the electricity…', x:'Touch your partner where you think their switch is.'},
   {n:25, t:'talk',  i:'Just between us…', x:'If the two of you had a secret signal that meant “Later…” what would it be?'},
   {n:26, t:'touch', i:'Close your eyes…', x:'Let your partner guide your hand somewhere they’d like a little attention.'},
-  {n:27, t:'talk',  i:'You’ve invited your partner for a romantic dinner.', x:'What will you serve for breakfast?'},
-  {n:28, t:'touch', i:'A hidden valley nestled between the hills…', x:'Pick a pair on your partner — eyes, ears, elbows, knees… you decide — and softly touch somewhere in between.'},
+  {n:27, t:'talk',  i:'Anticipation is part of the pleasure…', x:'You’re looking forward to a romantic weekend away. What two articles of clothing do you hope your partner will bring?'},
+  {n:28, t:'touch', i:'“Do unto others as you would have them do unto you.”', x:'Do to me what you would like me to do to you.'},
   {n:29, t:'talk',  i:'Some things deserve an encore…', x:'Your partner smiles and says, “Again!” What did you just do?'},
   {n:30, t:'touch', i:'Sign your work…', x:'Using the tip of a finger and your most elegant handwriting, trace your name somewhere on your partner’s body.'},
   {n:31, t:'talk',  i:'Who says it has to be the bedroom?', x:'The painters have finished your bedroom, but the walls are still wet. Where else in your home would you like to make love?'},
@@ -717,7 +721,7 @@ const CARDS = {
  ]
 };
 
-const VERSION_LABEL = 'Prototype v31 · tester build';
+const VERSION_LABEL = 'Prototype v33 · tester build';
 const OPENER = CARDS.playful[0];
 const FINISH_CARD = CARDS.intimate[CARDS.intimate.length-1];
 const ALL = [...CARDS.playful, ...CARDS.mid, ...CARDS.intimate];
@@ -875,15 +879,17 @@ function cardBackground(tier){
    Each colour group runs light to dark, matching its cards.              */
 /* colours taken from the brighter board sample (9-29): amber row all one
    bright gold; blue deepens toward the top; red deepens toward Finish.   */
+/* sampled from Michael's revised board, 13 Oct: lighter, more cyan blue at the
+   low end; a flatter, brighter gold that lifts toward 13; a narrower red.   */
 const BOARD_SHADE = {
-  playful:  {a:[0,107,255],  b:[0,77,184]},     // space 1 (light) -> 7 (deep)
-  mid:      {a:[253,166,4],  b:[224,139,6]},    // 8 -> 13, bright gold, gentle deepening
-  intimate: {a:[235,7,54],   b:[158,5,36]}      // 14 (light) -> 20 (deep)
+  playful:  {a:[94,190,253], b:[0,62,201]},     // space 1 (light) -> 7 (deep)
+  mid:      {a:[242,152,1],  b:[253,179,7]},    // 8 (deeper) -> 13 (brighter)
+  intimate: {a:[211,10,49],  b:[182,2,35]}      // 14 -> 20
 };
 const GROUP_SPAN = {playful:[1,7], mid:[8,13], intimate:[14,20]};
 function spaceRGB(i){
-  if (i <= 0) return [0,107,255];
-  if (i >= FINISH) return [158,5,36];
+  if (i <= 0) return [1,52,175];
+  if (i >= FINISH) return [160,2,28];
   const tier = BOARD[i-1].tier, [lo,hi] = GROUP_SPAN[tier], s = BOARD_SHADE[tier];
   const t = (i-lo)/(hi-lo);
   return s.a.map((v,k) => Math.round(v + (s.b[k]-v)*t));
@@ -1184,7 +1190,7 @@ const TERMS_HTML = `<h2>Terms and Conditions and Privacy</h2>
  <p class="lbl" style="margin-top:6px">Privacy</p>
  <p class="dim">An Enchanting Evening™ does not collect, send or store anything you type. Your names and Secret Wishes stay on the phone or tablet you’re playing on.</p>
  <p class="dim">If you pause, the game in progress is saved in this browser on this device only, so you can pick up where you left off. It is erased when the game ends, or when the time you chose runs out (24 hours at most).</p>
- <p class="dim">The evaluation is separate. It comes by email the day after you play, and your answers reach us only when you submit them.</p>
+ <p class="dim">The evaluation is separate. The link to it is in your Invitation — please fill it in the day after you play. Your answers reach us only when you submit them.</p>
  <p class="lbl" style="margin-top:18px">Terms and Conditions</p>
  <p class="dim">This is a test version of An Enchanting Evening™, provided free to a small number of invited couples. It is not for sale and has not been released.</p>
  <p class="dim">The game, its cards, questions, artwork and design belong to Time for Two, Inc. Please don’t copy, photograph or pass them along, and please keep your link between the two of you.</p>

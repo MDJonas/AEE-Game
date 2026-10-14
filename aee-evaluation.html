@@ -150,7 +150,8 @@ input[type=text]:focus,textarea:focus{border-color:var(--coral)}
 </div>
 
 <p class="sendwarn" id="sendwarn"></p>
-<button class="btn" type="button" id="sendbtn" onclick="sendIt()">Submit</button>
+<p class="note" style="margin-top:34px;text-align:center">When you have finished, tap Submit.</p>
+<button class="btn" type="button" id="sendbtn" style="margin-top:12px" onclick="sendIt()">Submit</button>
 <!-- The rescue button. Hidden until a send actually fails, so the only thing a
      tester sees at the bottom of the form is Submit (11 Oct, MDJ). -->
 <button class="btn ghost" type="button" id="copybtn" style="display:none" onclick="copyIt()">Copy my answers instead</button>
@@ -179,7 +180,7 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xzedvker';
 /* Answers go to Formspree and nowhere else -- no email route (10 Oct decision).
    The game does not link here; the only route is the Invitation (11 Oct). */
 
-const BUILD   = 'v31';
+const BUILD   = 'v32';
 const SUBJECT = 'An Enchanting Evening — tester evaluation';
 
 /* build the tap-choice rows */
@@ -248,6 +249,11 @@ function payload(){
   return o;
 }
 function showDone(){
+  /* Put the button back in working order before hiding the form. Without this
+     it stays disabled reading "Sending..." and "Back to my answers" returns a
+     form nobody can submit (reported 12 Oct). */
+  const btn = document.getElementById('sendbtn');
+  btn.disabled = false; btn.textContent = 'Submit';
   document.getElementById('f').style.display='none';
   document.getElementById('done').classList.add('on');
   window.scrollTo(0,0);
